@@ -923,10 +923,21 @@ body.v2.light{background:#F2F2F4}
 @keyframes spLine{to{transform:scaleX(1)}}
 @keyframes spFade{to{opacity:1}}
 @keyframes spBeam{0%{opacity:0;transform:rotate(35deg)}25%{opacity:1}80%{opacity:1}100%{opacity:0;transform:rotate(-28deg)}}
+
+.sp-bar{display:flex;align-items:center;margin-top:10px;height:22px}
+.sp-bar .sp-line{flex:1;margin:0;height:4px;border-radius:2px;background:linear-gradient(90deg,#d0d0d4,#fff,#d0d0d4)!important;box-shadow:none!important}
+.sp-bar .pl{display:block;flex:none;border-radius:3px;background:#ED1C24;transform:scaleY(0);box-shadow:0 0 12px rgba(237,28,36,.6);animation:spPlate .45s cubic-bezier(.2,1.6,.4,1) both}
+.sp-bar .l1,.sp-bar .r1{width:7px;height:22px;animation-delay:2.95s}
+.sp-bar .l2,.sp-bar .r2{width:5px;height:14px;background:#fff;box-shadow:none;animation-delay:3.05s}
+.sp-bar .l2{margin-right:2px}.sp-bar .r2{margin-left:2px}.sp-bar .l1{margin-right:3px}.sp-bar .r1{margin-left:3px}
+.sp-bar{animation:spLift .7s cubic-bezier(.4,0,.2,1) 3.15s both}
+@keyframes spPlate{to{transform:scaleY(1)}}
+@keyframes spLift{0%{transform:none}45%{transform:translateY(-7px)}100%{transform:none}}
+@media (max-width:380px){.sp-mark{left:-40px!important;top:-40px!important;width:80px!important;height:80px!important}.sp-logo{width:80px!important}}
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-stage"><div class="sp-beam"></div><div class="sp-mark"><i class="sp-arc"></i><i class="sp-ball"></i><div class="sp-parts"><i style="--a:0deg;--d:120px"></i><i style="--a:45deg;--d:95px"></i><i style="--a:90deg;--d:130px"></i><i style="--a:135deg;--d:100px"></i><i style="--a:180deg;--d:125px"></i><i style="--a:225deg;--d:90px"></i><i style="--a:270deg;--d:135px"></i><i style="--a:315deg;--d:105px"></i><i style="--a:20deg;--d:70px"></i><i style="--a:200deg;--d:75px"></i></div><img class="sp-logo" alt=""></div><div class="sp-word"><b><em class="" style="--k:0">F</em><em class="" style="--k:1">I</em><em class="" style="--k:2">T</em><em class="cc" style="--k:3">C</em><em class="" style="--k:4">E</em><em class="" style="--k:5">N</em><em class="" style="--k:6">T</em><em class="" style="--k:7">R</em><em class="" style="--k:8">U</em><em class="" style="--k:9">M</em><em class="r" style="--k:10">&nbsp;W.M.</em></b><i class="sp-line"></i><small>RAČA · NONSTOP 365 DNÍ</small></div></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-stage"><div class="sp-beam"></div><div class="sp-mark"><i class="sp-arc"></i><i class="sp-ball"></i><div class="sp-parts"><i style="--a:0deg;--d:120px"></i><i style="--a:45deg;--d:95px"></i><i style="--a:90deg;--d:130px"></i><i style="--a:135deg;--d:100px"></i><i style="--a:180deg;--d:125px"></i><i style="--a:225deg;--d:90px"></i><i style="--a:270deg;--d:135px"></i><i style="--a:315deg;--d:105px"></i><i style="--a:20deg;--d:70px"></i><i style="--a:200deg;--d:75px"></i></div><img class="sp-logo" alt=""></div><div class="sp-word"><b><em class="" style="--k:0">F</em><em class="" style="--k:1">I</em><em class="" style="--k:2">T</em><em class="cc" style="--k:3">C</em><em class="" style="--k:4">E</em><em class="" style="--k:5">N</em><em class="" style="--k:6">T</em><em class="" style="--k:7">R</em><em class="" style="--k:8">U</em><em class="" style="--k:9">M</em><em class="r" style="--k:10">&nbsp;W.M.</em></b><span class="sp-bar"><i class="pl l2"></i><i class="pl l1"></i><i class="sp-line"></i><i class="pl r1"></i><i class="pl r2"></i></span><small>RAČA · NONSTOP 365 DNÍ</small></div></div></div>
 <div id="wmauth" hidden><div class="wmk">W.M.</div>
 <div class="pane p1"><div class="wtop"><img src="logo.png" alt=""><b>FIT<i class="cc">C</i>ENTRUM <span>W.M.</span></b></div><div class="grow"></div>
 <span class="eye"><i></i>Rača · Nonstop 365 dní</span>
@@ -2777,9 +2788,9 @@ WMAuth.start();
 
 (function(){document.documentElement.style.background="";const sp=document.getElementById("splash");if(!sp)return;
   const lg=document.querySelector(".brand .logo");if(lg)sp.querySelector(".sp-logo").src=lg.src;
-  const w=sp.querySelector(".sp-word"),ww=w.querySelector("b").scrollWidth||240,gap=16,W=96+gap+ww;sp.style.setProperty("--mx",(-W/2+48)+"px");w.style.setProperty("--wl",(-W/2+96+gap)+"px");
+  const w=sp.querySelector(".sp-word"),wb=w.querySelector("b");const fit=()=>{wb.style.fontSize="";const L=innerWidth<=380?80:96,gap=14,av=Math.min(innerWidth-36,440);let ww=wb.scrollWidth||240;if(L+gap+ww>av){wb.style.fontSize=(26*(av-L-gap)/ww).toFixed(1)+"px";ww=wb.scrollWidth}const W=L+gap+ww;sp.style.setProperty("--mx",(-W/2+L/2)+"px");w.style.setProperty("--wl",(-W/2+L+gap)+"px");w.style.width=ww+"px"};fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);setTimeout(fit,900);
   let done=false;const end=()=>{if(done)return;done=true;sp.classList.add("out");setTimeout(()=>sp.remove(),600)};
-  sp.addEventListener("click",end);setTimeout(end,3300)})();
+  sp.addEventListener("click",end);setTimeout(end,4000)})();
 </script>
 </body>
 </html>
