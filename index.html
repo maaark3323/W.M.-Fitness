@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FITCENTRUM W.M.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <style>
 html,body{overscroll-behavior:none}
 #wmauth{position:fixed;inset:0;z-index:9999;color:#fff;font-family:"Manrope",system-ui,sans-serif;overflow:hidden;background:radial-gradient(120% 70% at 100% 0%,rgba(237,28,36,.38),transparent 60%),radial-gradient(90% 50% at 0% 100%,rgba(237,28,36,.16),transparent 60%),linear-gradient(170deg,#141416,#050506 65%);overscroll-behavior:none;touch-action:pan-x pan-y}
@@ -62,6 +63,23 @@ html,body{overscroll-behavior:none}
 @keyframes wmWord{0%{transform:translateY(80px);opacity:0}35%{transform:none;opacity:1}68%{transform:none;opacity:1}100%{transform:translateY(-80px);opacity:0}}
 @keyframes wmSpin{from{transform:rotate(-140deg) scale(.3);opacity:0}to{transform:none;opacity:1}}
 @keyframes wmBar{to{width:120px}}
+/* v42 prihlásenie – pokojnejšie, štýl fitcentrum.sk */
+#wmauth{background:radial-gradient(110% 60% at 100% 0%,rgba(237,28,36,.12),transparent 60%),linear-gradient(170deg,#121316,#08090A 65%)}
+#wmauth .wmk{font:800 170px/1 "Unbounded",sans-serif;letter-spacing:-.06em;-webkit-text-stroke:1px rgba(255,255,255,.06)}
+#wmauth .eye{font:600 10px "Unbounded",sans-serif;letter-spacing:.2em;color:#ED1C24;padding:0;background:none;border:0}
+#wmauth .eye i{box-shadow:none}
+#wmauth h1{font:800 clamp(34px,10.5vw,50px)/1.06 "Unbounded",sans-serif;letter-spacing:-.045em}
+#wmauth h1 em{text-shadow:none}
+#wmauth h2{font:800 32px/1.05 "Unbounded",sans-serif;letter-spacing:-.04em}
+#wmauth button{font:700 13px "Unbounded",sans-serif;letter-spacing:.06em}
+#wmauth .pri{background:linear-gradient(180deg,#F5222B,#C9101A);box-shadow:0 10px 24px -10px rgba(237,28,36,.6),inset 0 1px 0 rgba(255,255,255,.22)}
+#wmauth .sec{background:transparent;border:1px solid rgba(255,255,255,.2)}
+#wmauth label{font:600 9.5px "Unbounded",sans-serif;letter-spacing:.16em}
+#wmauth input:focus{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.07)}
+#wmauth .wmwipe{background:linear-gradient(160deg,#141518,#08090A)}
+#wmauth .wmwipe img{filter:none}
+#wmauth .wmwipe b{font:800 30px/1 "Unbounded",sans-serif;letter-spacing:-.04em}
+#wmauth .wmwipe i{background:#ED1C24}
 body.enter-app .app{animation:appIn .7s cubic-bezier(.2,.8,.2,1) .5s both}
 @keyframes appIn{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:none}}
 </style>
@@ -122,7 +140,7 @@ if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.ser
 <title>FITCENTRUM W.M.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Unbounded:wght@500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* Layout: one-column dark mobile app (max 560px), sticky top bar, floating bottom nav, rounded bottom sheets. Soft modern take on the gym look: deep graphite, muted coral-red, rounded surfaces. */
 :root{
@@ -903,6 +921,140 @@ body.v2 .top{padding-top:calc(4px + env(safe-area-inset-top))!important}
 
 body.v2.light{background:#F2F2F4}
 
+/* ================= v42 – nový dizajn (inšpirácia fitcentrum.sk): pokojná tmavá, Unbounded, červená len ako akcent ================= */
+:root{--wmf:"Unbounded",system-ui,sans-serif}
+body.v2:not(.light){--bg:#08090A;--surface:#0F1012;--soft:#18191C;background:#08090A}
+body.v2:not(.light) .v2bg{background:#08090A}
+body.v2:not(.light) .v2bg .b1{background:radial-gradient(circle,rgba(237,28,36,.09),rgba(255,255,255,.015) 40%,transparent 62%)}
+body.v2:not(.light) .v2bg .b2{background:radial-gradient(circle,rgba(255,255,255,.03),transparent 60%)}
+body.v2 .v2bg .gr{opacity:.4}
+/* písmo */
+body.v2 h1{font:800 25px/1.1 var(--wmf);font-stretch:normal;text-transform:none;letter-spacing:-.035em}
+body.v2 h3,body.v2 .label{font:600 10px/1.3 var(--wmf);font-stretch:normal;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
+body.v2 .vhead h3::after{background:linear-gradient(90deg,rgba(255,255,255,.16),transparent)}
+body.v2.light .vhead h3::after{background:linear-gradient(90deg,rgba(0,0,0,.14),transparent)}
+body.v2 .sheet-h h2{font:700 17px/1.2 var(--wmf);font-stretch:normal;text-transform:none;letter-spacing:-.03em}
+body.v2 .wname{font:800 22px/1.15 var(--wmf)!important;font-stretch:normal!important;text-transform:none;letter-spacing:-.035em!important}
+body.v2 .ex-name{font:700 15px/1.25 var(--wmf);font-stretch:normal;text-transform:none;letter-spacing:-.02em}
+body.v2 .tile b{font:700 20px/1.1 var(--wmf)!important;font-stretch:normal!important;letter-spacing:-.04em!important}
+body.v2 .tiles .tile:first-child b{color:inherit}
+body.v2 .tile span{font:600 9px/1.3 var(--wmf);letter-spacing:.12em}
+body.v2 #clock,body.v2 .timer .t,body.v2 .wbar b,body.v2 .wbar .wn{font-family:var(--wmf);font-stretch:normal;letter-spacing:-.02em}
+body.v2 .cls .cn b,body.v2 .trn b{font-family:var(--wmf);font-stretch:normal;text-transform:none;letter-spacing:-.02em}
+/* plochy */
+body.v2:not(.light) .card,body.v2:not(.light) .tile,body.v2:not(.light) .callout,body.v2:not(.light) .cls{background:linear-gradient(180deg,rgba(21,22,25,.94),rgba(13,14,16,.96)) padding-box,linear-gradient(155deg,rgba(255,255,255,.12),rgba(255,255,255,.03) 50%,rgba(255,255,255,.06)) border-box!important}
+body.v2:not(.light) .callout{background:linear-gradient(160deg,rgba(237,28,36,.08),transparent 60%),linear-gradient(180deg,#15161a,#0d0e10)!important;border:1px solid rgba(255,255,255,.08)!important}
+body.v2 .card.routine{transition:transform .25s cubic-bezier(.2,.9,.3,1.3)}
+body.v2 .card.routine:active{transform:scale(.985)}
+/* tlačidlá */
+body.v2 .btn.primary{background:linear-gradient(180deg,#F5222B,#C9101A)!important;box-shadow:0 10px 24px -10px rgba(237,28,36,.6),inset 0 1px 0 rgba(255,255,255,.22)!important;letter-spacing:.05em}
+body.v2 .btn.big{font:700 14px var(--wmf);font-stretch:normal;letter-spacing:.04em;border-radius:18px}
+body.v2 .btn.big.primary::after,body.v2 .hero2 .btn.primary::after{opacity:.5}
+body.v2 .btn.outline{border:1.5px dashed rgba(255,255,255,.16);color:var(--muted);background:transparent}
+body.v2.light .btn.outline{border-color:rgba(0,0,0,.18)}
+body.v2 .chip.on{background:#F2F2F3;color:#0A0A0B;box-shadow:none}
+body.v2.light .chip.on{background:#111113;color:#fff}
+body.v2 .switch:checked{box-shadow:none}
+body.v2 .act-meta b{color:var(--ink)}
+body.v2 #clock::before{animation:none;box-shadow:none}
+/* hlavička + menu */
+body.v2 .brand .logo{filter:none}
+body.v2 .nav{background:rgba(14,15,17,.72)!important}
+body.v2.light .nav{background:rgba(255,255,255,.75)!important}
+body.v2 .nav .sgi{background:rgba(255,255,255,.1)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important}
+body.v2.light .nav .sgi{background:rgba(0,0,0,.07)!important;box-shadow:none!important}
+body.v2 .nav a{font:600 8.5px var(--wmf);font-stretch:normal;letter-spacing:.08em;gap:4px}
+body.v2 .nav a.on{color:var(--ink)}
+body.v2 .nav a.on svg{color:var(--accent)}
+body.v2 .toast{border-color:rgba(255,255,255,.12);box-shadow:0 14px 34px rgba(0,0,0,.55)}
+body.v2 .wbar button{border-color:rgba(255,255,255,.12);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+body.v2 .wbar b{color:var(--ink)}
+/* úvodná karta */
+body.v2:not(.light) .hero2{background:linear-gradient(160deg,#141518,#0A0B0C 70%);border-color:rgba(255,255,255,.08)}
+.hero2{border-radius:24px}
+.hero2 .wm{font:800 118px/1 var(--wmf)!important;letter-spacing:-.06em;-webkit-text-stroke:1px rgba(255,255,255,.06)!important;top:6px!important}
+body.v2.light .hero2 .wm{-webkit-text-stroke-color:rgba(0,0,0,.06)!important}
+.hero2::before{opacity:.6}
+.hero2 .eye{font:600 10px var(--wmf)!important;letter-spacing:.2em!important;color:var(--accent)!important;background:none!important;border:0!important;padding:0!important}
+.hero2 .eye i{animation:none!important}
+.hero2 .ttl{font:800 clamp(29px,9.4vw,44px)/1.02 var(--wmf)!important;letter-spacing:-.045em;text-transform:uppercase;margin:12px 0 12px!important}
+.hero2 .ttl span{padding:.13em 0 .03em!important;margin-top:-.1em!important}
+.hero2 .ttl em{animation:none!important;white-space:nowrap}
+.hero2 .ttl .ch{display:inline-block;font-style:normal;will-change:transform}
+.hero2 .ttl .red em{color:var(--accent);text-shadow:none}
+.hero2 .ttl .out em{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.72)}
+body.v2.light .hero2 .ttl .out em{-webkit-text-stroke-color:rgba(0,0,0,.55)}
+.hero2 .hsub{max-width:34ch}
+.hero2 .gostart{display:flex;justify-content:space-between;align-items:center;height:64px!important;padding:0 8px 0 20px!important}
+.hero2 .gostart .ar{width:48px;height:48px;border-radius:14px;background:#fff;color:var(--accent);display:grid;place-items:center;flex:none}
+.hero2 .gostart>span{overflow:hidden;text-overflow:ellipsis}
+.hst3{display:grid;grid-template-columns:auto 1fr 1fr;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
+body.v2.light .hst3{border-top-color:rgba(0,0,0,.08)}
+.ringbox{position:relative;width:76px;height:76px;margin-right:14px}
+.ringbox svg{width:76px;height:76px;transform:rotate(-90deg);display:block}
+.ringbox .trk{stroke:rgba(255,255,255,.08)}
+body.v2.light .ringbox .trk{stroke:rgba(0,0,0,.08)}
+.ringbox .val{stroke:var(--accent);stroke-linecap:round}
+.ringbox .in{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1}
+.ringbox .in b{font:700 21px var(--wmf);letter-spacing:-.04em}
+.ringbox .in s{text-decoration:none;font:600 12px var(--wmf);color:var(--muted)}
+.ringbox .in small{display:block;font:600 7.5px var(--wmf);letter-spacing:.14em;color:var(--muted);margin-top:4px}
+.hs3{display:flex;flex-direction:column;gap:4px;padding-left:12px;border-left:1px solid rgba(255,255,255,.08);min-width:0}
+body.v2.light .hs3{border-left-color:rgba(0,0,0,.08)}
+.hs3 b{font:700 24px/1 var(--wmf);letter-spacing:-.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hs3 span{font:600 8px/1.3 var(--wmf);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* Tvoja forma */
+.wform{padding:16px}
+.wform .hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wform .big{display:flex;align-items:baseline;gap:8px;margin-top:10px}
+.wform .big b{font:800 36px/1 var(--wmf);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.wform .big small{font-weight:700}
+.wform .delta{margin-left:auto;font:700 11.5px var(--body);color:#4CC38A;background:rgba(76,195,138,.12);padding:4px 9px;border-radius:999px;white-space:nowrap}
+.wform .delta.dn{color:var(--muted);background:rgba(255,255,255,.06)}
+.wform .days{display:flex;align-items:flex-end;gap:3px;height:70px;margin-top:14px}
+.wform .days i{flex:1;min-width:2px;border-radius:3px 3px 1px 1px;background:rgba(255,255,255,.07);transform-origin:bottom}
+body.v2.light .wform .days i{background:rgba(0,0,0,.07)}
+.wform .days i.on{background:linear-gradient(180deg,#E9E9EC,#8B8C92)}
+body.v2.light .wform .days i.on{background:linear-gradient(180deg,#55565c,#1d1d20)}
+.wform .days i.on.td{background:var(--accent)}
+.wform .axis{display:flex;justify-content:space-between;margin-top:6px;font:700 10px var(--body);color:var(--muted);opacity:.7}
+.wform .ft{display:grid;grid-template-columns:repeat(3,1fr);margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07)}
+body.v2.light .wform .ft{border-top-color:rgba(0,0,0,.07)}
+.wform .ft div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.wform .ft div+div{padding-left:12px;border-left:1px solid rgba(255,255,255,.07)}
+body.v2.light .wform .ft div+div{border-left-color:rgba(0,0,0,.07)}
+.wform .ft b{font:700 19px/1 var(--wmf);letter-spacing:-.04em}
+.wform .ft span{font:600 8px/1.3 var(--wmf);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* rýchle akcie */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.quick>*{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 2px 12px!important;text-decoration:none;color:inherit;font:600 8.5px var(--wmf);letter-spacing:.06em;text-transform:uppercase;text-align:center}
+.quick .qi{width:40px;height:40px;border-radius:13px;background:rgba(255,255,255,.06);display:grid;place-items:center}
+body.v2.light .quick .qi{background:rgba(0,0,0,.05)}
+.quick svg{width:20px;height:20px}
+/* rutiny */
+.card.routine{position:relative;overflow:hidden}
+.card.routine .rnum{position:absolute;right:-6px;top:-14px;font:800 92px/1 var(--wmf);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);pointer-events:none}
+body.v2.light .card.routine .rnum{-webkit-text-stroke-color:rgba(0,0,0,.06)}
+.card.routine>.row b{font:700 16px/1.2 var(--wmf);letter-spacing:-.025em;position:relative}
+.card.routine .rmeta{font-size:12.5px;color:var(--muted);margin-top:3px}
+.rtags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 14px}
+.rtags span{font:600 12px var(--body);padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:#C9CAD0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.v2.light .rtags span{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.06);color:#3a3b40}
+.rtags span b{color:var(--muted);font-weight:800;margin-right:4px}
+body.v2 .card.routine .btn.primary{background:rgba(255,255,255,.06)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.1);color:var(--ink)}
+body.v2.light .card.routine .btn.primary{background:rgba(0,0,0,.05)!important;border-color:rgba(0,0,0,.08)}
+body.v2 .card.routine .btn.primary::after{display:none}
+body.v2 .folder .ft{font:600 10px var(--wmf);letter-spacing:.16em;text-transform:uppercase}
+body.v2 .selbtn{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.12)!important;color:var(--ink)!important;box-shadow:none!important;font-weight:700}
+body.v2.light .selbtn{background:rgba(0,0,0,.04)!important;border-color:rgba(0,0,0,.1)!important;color:#111!important}
+body.v2 .avatar{box-shadow:0 0 0 1px rgba(255,255,255,.16)!important;font-family:var(--wmf)}
+body.v2 .tav{background:linear-gradient(150deg,#2a2b2f,#141518);box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+body.v2 .cls .ct b{font:700 19px/1 var(--wmf);letter-spacing:-.04em}
+body.v2 .cls .btn.primary,body.v2 .trn .btn.primary{background:#F2F2F3!important;color:#0A0A0B!important;box-shadow:none!important}
+body.v2 .cls .btn.primary::after,body.v2 .trn .btn.primary::after{display:none}
+body.v2.light .cls .btn.primary,body.v2.light .trn .btn.primary{background:#111113!important;color:#fff!important}
+body.v2 .cls.on{box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
+
 
 
 /* splash v2 – motion logo reveal */
@@ -1252,7 +1404,7 @@ let lastVK="",enterT=null;function render(force){
   if(document.body.classList.contains("light")!==(S.settings.theme==="light"))applyTheme();
   if(S._lang!==(S.settings.lang||"sk")){S._lang=S.settings.lang||"sk";if(typeof applyLang==="function")applyLang()}
   {if(!S.settings.design)S.settings.design="v2";const v2=true;document.body.classList.add("v2");document.body.classList.toggle("still",S.settings.design==="classic");const vk=t+(t==="trening"?(S.active&&!S.ui.peek?"a":"h"):"")+(t==="profil"?S.ui.ptab:"");
-   if(v2&&vk!==lastVK){const v=$("#view");[...v.children].forEach((c,i)=>c.style.setProperty("--i",Math.min(i,10)));v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");clearTimeout(enterT);enterT=setTimeout(()=>v.classList.remove("enter"),1300);if(t==="trening"&&!(S.active&&!S.ui.peek))v2Count(v)}lastVK=vk}
+   if(v2&&vk!==lastVK){const v=$("#view");[...v.children].forEach((c,i)=>c.style.setProperty("--i",Math.min(i,10)));v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");clearTimeout(enterT);enterT=setTimeout(()=>v.classList.remove("enter"),1300);if(t==="trening"&&!(S.active&&!S.ui.peek)){v2Count(v);wmAnim(v)}}lastVK=vk}
   if(S.ui.anim){document.querySelectorAll(`[data-anim="${S.ui.anim}"]`).forEach(e=>e.classList.add("anim-in"));S.ui.anim=null}
   fillThumbs();syncWake();wbSync();
 }
@@ -1307,20 +1459,44 @@ const HELLO={sk:["Dobré ráno","Ahoj","Dobrý večer","Zapisuj váhy a série, 
 function heroHTML(){const ws=sortedWorkouts(),w0=weekStart(Date.now()),tw=ws.filter(w=>w.start>=w0),vol=tw.reduce((a,w)=>a+volume(w),0),nm=(S.settings.profile||{}).name,LG=S.settings.lang||"sk",TL=TAGS_L[LG],t=TL?TL[tagI%TL.length]:TAGS[tagI],h=new Date().getHours(),HL=HELLO[LG]||HELLO.sk;
   const hi=h<10?HL[0]:h<18?HL[1]:HL[2];
   return `<section class="hero2 v2only"><div class="wm" aria-hidden="true">W.M.</div><div class="eye"><i></i>${S.active?"Prebieha tréning":"Rača · nonstop 365 dní"}</div>
-  <h1 class="ttl">${t.map((x,i)=>{const r=x[0]==="*"||(!t.some(y=>y[0]==="*")&&i===t.length-1);return `<span class="${r?"red":""}"><em style="--d:${i}">${esc(x.replace(/^\*/,""))}</em></span>`}).join("")}</h1>
+  <h1 class="ttl">${t.map((x,i)=>{const r=x[0]==="*"||(!t.some(y=>y[0]==="*")&&i===t.length-1);return `<span class="${r?"red":i?"out":""}"><em style="--d:${i}">${[...x.replace(/^\*/,"")].map(c=>`<i class="ch">${c===" "?"&nbsp;":esc(c)}</i>`).join("")}</em></span>`}).join("")}</h1>
   <div class="hsub"><b>${hi}${nm?", "+esc(nm.split(" ")[0]):""}.</b> ${HL[3]}</div>
-  ${S.active?`<button class="btn primary big block" data-act="peek-off">Späť do tréningu · <span id="pclock">${clock(elapsed(S.active))}</span></button>`:`<button class="btn primary big block" data-act="start-empty">Začať tréning</button>`}
-  <div class="hst"><div><b data-count="${tw.length}">${tw.length}</b><span>tento týždeň</span></div><div><b data-count="${streakNow()}">${streakNow()}</b><span>týždňov v rade</span></div><div><b data-count="${vol>=1000?Math.round(vol/100)/10:Math.round(vol)}" data-suf="${vol>=1000?" t":""}">${vol>=1000?fmtN(Math.round(vol/100)/10)+" t":fmtN(Math.round(vol))}</b><span>${vol>=1000?"objem":"kg objem"}</span></div></div></section>`}
+  ${S.active?`<button class="btn primary big block gostart" data-act="peek-off"><span>Späť do tréningu · <span id="pclock">${clock(elapsed(S.active))}</span></span><b class="ar">${ARR_IC}</b></button>`:`<button class="btn primary big block gostart" data-act="start-empty"><span>Začať tréning</span><b class="ar">${ARR_IC}</b></button>`}
+  ${(()=>{const goal=Math.max(1,+S.settings.wgoal||3),off=(213.6*(1-Math.min(1,tw.length/goal))).toFixed(1);
+  return `<div class="hst3"><div class="ringbox"><svg viewBox="0 0 80 80"><circle class="trk" cx="40" cy="40" r="34" fill="none" stroke-width="7"/><circle class="val" cx="40" cy="40" r="34" fill="none" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="${off}" data-off="${off}"/></svg><div class="in"><div><b data-count="${tw.length}">${tw.length}</b><s>/${goal}</s><small>TÝŽDEŇ</small></div></div></div>
+  <div class="hs3"><b data-count="${streakNow()}">${streakNow()}</b><span>týždňov v rade</span></div><div class="hs3"><b data-count="${vol>=1000?Math.round(vol/100)/10:Math.round(vol)}" data-suf="${vol>=1000?" t":""}">${vol>=1000?fmtN(Math.round(vol/100)/10)+" t":fmtN(Math.round(vol))}</b><span>${vol>=1000?"objem":"kg objem"}</span></div></div>`})()}</section>`}
+const ARR_IC=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+function formHTML(){const DAY=864e5,d0=new Date();d0.setHours(0,0,0,0);const end=d0.getTime()+DAY,from=end-30*DAY;
+  if(!sortedWorkouts().length)return "";
+  const ws=workoutsIn(from,end),days=Array(30).fill(0);ws.forEach(w=>{const i=Math.floor((w.start-from)/DAY);if(i>=0&&i<30)days[i]+=volume(w)||1});
+  const cv=ws.reduce((a,w)=>a+volume(w),0),pv=workoutsIn(from-30*DAY,from).reduce((a,w)=>a+volume(w),0),mx=Math.max(...days,1);
+  const dl=pv>0?Math.round((cv-pv)/pv*100):null,big=cv>=1000?Math.round(cv/100)/10:Math.round(cv),dur=ws.reduce((a,w)=>a+durOf(w),0);
+  const avg=ws.length?Math.round(dur/ws.length/6e4):0;
+  return `<div class="card wform"><div class="hd"><h3>Tvoja forma</h3><small>posledných 30 dní</small></div>
+  <div class="big"><b data-count="${big}">${fmtN(big)}</b><small>${cv>=1000?"t objem":"kg objem"}</small>${dl!=null?`<span class="delta${dl<0?" dn":""}">${dl<0?"▼":"▲"} ${Math.abs(dl)} %</span>`:""}</div>
+  <div class="days">${days.map((v,i)=>`<i class="${v?"on":""}${i===29?" td":""}" style="height:${v?Math.max(16,Math.round(v/mx*100)):7}%"></i>`).join("")}</div>
+  <div class="axis"><span>pred 30 dňami</span><span>dnes</span></div>
+  <div class="ft"><div><b data-count="${ws.length}">${ws.length}</b><span>tréningov</span></div><div><b data-count="${Math.round(dur/36e5)}">${Math.round(dur/36e5)}</b><span>hodín</span></div><div><b data-count="${avg}">${avg}</b><span>min / tréning</span></div></div></div>`}
+const Q_IC={prog:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 4v5"/></svg>`,
+  str:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 7v10M3 9.5v5M18 7v10M21 9.5v5M6 12h12"/></svg>`,
+  add:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
+  fol:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`};
+function wmAnim(v){if(!window.gsap||document.body.classList.contains("still")||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const ch=v.querySelectorAll(".hero2 .ttl .ch");if(ch.length)gsap.fromTo(ch,{yPercent:115,rotate:8,opacity:0},{yPercent:0,rotate:0,opacity:1,duration:.85,ease:"expo.out",stagger:.02,delay:.08,clearProps:"transform,opacity"});
+  const rv=v.querySelector(".ringbox .val");if(rv)gsap.fromTo(rv,{attr:{"stroke-dashoffset":213.6}},{attr:{"stroke-dashoffset":+rv.dataset.off},duration:1.4,ease:"power3.out",delay:.25});
+  const bars=v.querySelectorAll(".wform .days i");if(bars.length)gsap.fromTo(bars,{scaleY:0},{scaleY:1,duration:.8,ease:"expo.out",stagger:{each:.014,from:"end"},delay:.35});
+  const items=[...v.children].filter(c=>!c.classList.contains("hero2"));
+  if(items.length)gsap.fromTo(items,{y:46,opacity:0},{y:0,opacity:1,duration:.75,ease:"power3.out",stagger:i=>Math.min(i,8)*.055,delay:.12,clearProps:"transform,opacity"})}
 function v2Count(root){(root||document).querySelectorAll("[data-count]").forEach(el=>{const to=+el.dataset.count,suf=el.dataset.suf||"";if(!(to>0))return;const dec=to%1?1:0,t0=performance.now(),D=1100;
   const f=n=>{const p=Math.min(1,(n-t0)/D),e=1-Math.pow(1-p,4),v=to*e;el.textContent=fmtN(dec?Math.round(v*10)/10:Math.round(v))+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 function viewHome(){
   const mCount=Object.keys(S.machines).length,loading=S.catMode==="loading";
   const now=new Date(),pm=new Date(now.getFullYear(),now.getMonth()-1,1),pmW=workoutsIn(pm.getTime(),new Date(now.getFullYear(),now.getMonth(),1).getTime());
-  return `${heroHTML()}${pmW.length?`<button class="card row between" data-act="report" data-y="${pm.getFullYear()}" data-m="${pm.getMonth()}" style="width:100%;text-align:left"><span><b>Report za ${esc(pm.toLocaleDateString(LOC(),{month:"long"}))}</b><br><small>${pmW.length} tréningov · ${fmtHours(pmW.reduce((s,w)=>s+durOf(w),0))}</small></span><span class="btn sm">Zobraziť</span></button>`:""}
+  return `${heroHTML()}${formHTML()}${pmW.length?`<button class="card row between" data-act="report" data-y="${pm.getFullYear()}" data-m="${pm.getMonth()}" style="width:100%;text-align:left"><span><b>Report za ${esc(pm.toLocaleDateString(LOC(),{month:"long"}))}</b><br><small>${pmW.length} tréningov · ${fmtHours(pmW.reduce((s,w)=>s+durOf(w),0))}</small></span><span class="btn sm">Zobraziť</span></button>`:""}
   ${mCount||loading?"":S.isAdmin?`<div class="callout"><h2>Naplň katalóg strojov</h2><div class="sub">Ako admin pridávaš stroje do spoločného katalógu, ktorý uvidia všetci. Vlož celý zoznam naraz alebo pridávaj postupne.</div><div class="row"><a class="btn primary sm" href="#nastavenia">Importovať zoznam</a><button class="btn sm" data-act="sample">12 ukážkových</button></div></div>`
     :`<div class="callout"><h2>Katalóg sa pripravuje</h2><div class="sub">Stroje postupne pridáva admin. Dovtedy si môžeš pridať vlastný stroj priamo počas tréningu.</div></div>`}
   <button class="btn primary big block" data-act="start-empty">Začať prázdny tréning</button>
-  <div class="grid2"><a class="btn" href="#programy">Programy</a><a class="btn" href="#stroje">Stroje</a><button class="btn" data-act="r-new">+ Rutina</button><button class="btn" data-act="f-new">+ Priečinok</button></div>
+  <div class="quick"><a class="card" href="#programy"><span class="qi">${Q_IC.prog}</span><span>Programy</span></a><a class="card" href="#stroje"><span class="qi">${Q_IC.str}</span><span>Stroje</span></a><button class="card" data-act="r-new"><span class="qi">${Q_IC.add}</span><span>Rutina</span></button><button class="card" data-act="f-new"><span class="qi">${Q_IC.fol}</span><span>Priečinok</span></button></div>
   <div class="vhead" style="margin-top:4px"><h3>Moje rutiny</h3></div>
   ${routinesBlock()}
   <button class="btn ghost sm" data-act="r-import">Vložiť zdieľanú rutinu</button>`}
@@ -1329,8 +1505,9 @@ function routinesBlock(){
   const groups=[...S.folders.map(f=>({f,list:S.routines.filter(r=>r.folder===f.id)})),{f:null,list:S.routines.filter(r=>!r.folder||!S.folders.some(f=>f.id===r.folder))}];
   return groups.filter(g=>g.f||g.list.length).map(g=>{const id=g.f?g.f.id:"_",open=!S.ui.fold[id];
     return `<div class="folder"><button class="ft" data-act="fold" data-id="${id}">${open?"▾":"▸"} ${esc(g.f?g.f.name:S.folders.length?"Bez priečinka":"Moje rutiny")} <small>(${g.list.length})</small></button>${g.f?`<button class="icon" data-act="f-menu" data-id="${g.f.id}" aria-label="Možnosti priečinka">⋯</button>`:""}</div>
-    ${open?g.list.map(r=>`<div class="card routine" data-act="r-view" data-id="${r.id}" style="cursor:pointer"><div class="row between"><b>${esc(r.name)}</b><button class="icon" data-act="r-menu" data-id="${r.id}" aria-label="Možnosti rutiny">⋯</button></div>
-      <div class="names">${esc(r.items.map(it=>(S.machines[it.mid]||{}).name||"?").join(" · "))}</div>
+    ${open?g.list.map((r,ri)=>`<div class="card routine" data-act="r-view" data-id="${r.id}" style="cursor:pointer"><div class="rnum" aria-hidden="true">${String(ri+1).padStart(2,"0")}</div><div class="row between"><b>${esc(r.name)}</b><button class="icon" data-act="r-menu" data-id="${r.id}" aria-label="Možnosti rutiny">⋯</button></div>
+      <div class="rmeta">${r.items.length} ${r.items.length===1?"cvik":r.items.length<5&&r.items.length>1?"cviky":"cvikov"}</div>
+      <div class="rtags">${r.items.slice(0,3).map(it=>{const m=S.machines[it.mid]||{};return `<span>${m.num?`<b>${esc(m.num)}</b>`:""}${esc(m.name||"?")}</span>`}).join("")}${r.items.length>3?`<span>+${r.items.length-3}</span>`:""}</div>
       <button class="btn primary block sm" data-act="r-start" data-id="${r.id}">Spustiť rutinu</button></div>`).join("")||`<div class="sub" style="padding:0 4px 8px">Prázdny priečinok</div>`:""}`}).join("")}
 
 /* ================= TRÉNING: active ================= */
