@@ -51,6 +51,19 @@ html,body{overscroll-behavior:none}
 #wmauth .msg.ok{color:#8fe3a0}
 #wmauth .lnk{background:none;box-shadow:none;color:#94959A;font:600 14px "Manrope",sans-serif;letter-spacing:0;text-transform:none;padding:6px}
 #wmauth .lnk[hidden]{display:none}
+#wmauth.leave .pane{transform:translateY(-50px)!important;opacity:0!important;transition:transform .45s cubic-bezier(.7,0,.25,1),opacity .35s}
+#wmauth.gone{background:transparent!important}#wmauth.gone::before,#wmauth.gone .wmk,#wmauth.gone .pane{display:none}
+#wmauth .wmwipe{position:absolute;inset:0;background:linear-gradient(160deg,#ff2d36,#a50b11);display:flex;align-items:center;justify-content:center;animation:wmWipe 1.4s cubic-bezier(.7,0,.25,1) forwards;z-index:3}
+#wmauth .wmwipe div{display:flex;flex-direction:column;align-items:center;gap:12px;animation:wmWord 1.4s cubic-bezier(.7,0,.25,1) forwards}
+#wmauth .wmwipe img{width:84px;filter:brightness(0) invert(1);animation:wmSpin .9s cubic-bezier(.2,1.3,.4,1) .15s both}
+#wmauth .wmwipe b{font:400 44px/1 "Anton",sans-serif;letter-spacing:.04em;color:#fff}
+#wmauth .wmwipe i{display:block;width:0;height:3px;background:#fff;animation:wmBar .5s cubic-bezier(.7,0,.25,1) .35s forwards}
+@keyframes wmWipe{0%{clip-path:inset(100% 0 0 0)}35%{clip-path:inset(0 0 0 0)}68%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+@keyframes wmWord{0%{transform:translateY(80px);opacity:0}35%{transform:none;opacity:1}68%{transform:none;opacity:1}100%{transform:translateY(-80px);opacity:0}}
+@keyframes wmSpin{from{transform:rotate(-140deg) scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes wmBar{to{width:120px}}
+body.enter-app .app{animation:appIn .7s cubic-bezier(.2,.8,.2,1) .5s both}
+@keyframes appIn{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:none}}
 </style>
 <script>
 /* ===== WM fitness: Supabase backend (napodobňuje pôvodné API úložiska) ===== */
@@ -74,7 +87,7 @@ const WMAuth=(()=>{
   const user={id:async()=>session.user.id,isOwner:async()=>{try{const {data}=await sb.rpc("is_admin");return !!data}catch(e){return false}},can:async()=>true,email:()=>session&&session.user.email};
   /* obnov dáta, keď sa appka vráti na obrazovku (iba ak sa práve nič neukladá) */
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&session&&!pending)live.forEach(f=>f())});
-  function boot(){try{if(location.hash!=="#trening")history.replaceState(null,"","#trening")}catch(e){}window.claude={use:async n=>n==="db"?db:n==="user"?user:null};document.getElementById("wmauth").hidden=true;Store.init()}
+  function boot(anim){try{if(location.hash!=="#trening")history.replaceState(null,"","#trening")}catch(e){}window.claude={use:async n=>n==="db"?db:n==="user"?user:null};const el=document.getElementById("wmauth");if(!anim){el.hidden=true;Store.init();return}document.activeElement&&document.activeElement.blur();const w=document.createElement("div");w.className="wmwipe";w.innerHTML=`<div><img src="logo.png" alt=""><b>${anim==="reg"?"VITAJ":"VITAJ SPÄŤ"}</b><i></i></div>`;el.appendChild(w);el.classList.add("leave");setTimeout(()=>{el.classList.add("gone");Store.init();document.body.classList.add("enter-app")},620);setTimeout(()=>{el.hidden=true;el.classList.remove("leave","gone");w.remove()},1400);setTimeout(()=>document.body.classList.remove("enter-app"),2200)}
   function ui(){
     const el=document.getElementById("wmauth"),f=el.querySelector("form"),msg=el.querySelector(".msg"),em=f.querySelector("[name=email]"),pw=f.querySelector("[name=pw]");
     const say=(t,ok)=>{msg.textContent=t;msg.className="msg"+(ok?" ok":"")};
@@ -86,9 +99,9 @@ const WMAuth=(()=>{
     el.querySelector(".back").onclick=()=>{el.classList.remove("step2");document.activeElement&&document.activeElement.blur()};
     el.hidden=false;
     f.onsubmit=async e=>{e.preventDefault();const E=em.value.trim(),P=pw.value;
-      if(mode==="login"){say("Prihlasujem…",true);const {data,error}=await sb.auth.signInWithPassword({email:E,password:P});if(error)return say(tr(error));session=data.session;return boot()}
+      if(mode==="login"){say("Prihlasujem…",true);const {data,error}=await sb.auth.signInWithPassword({email:E,password:P});if(error)return say(tr(error));session=data.session;return boot("login")}
       say("Vytváram účet…",true);const {data,error}=await sb.auth.signUp({email:E,password:P,options:{emailRedirectTo:location.origin+location.pathname}});if(error)return say(tr(error));
-      if(data.session){session=data.session;boot()}else say("Účet vytvorený. Potvrď ho cez odkaz v emaile a potom sa prihlás.",true)};
+      if(data.session){session=data.session;boot("reg")}else say("Účet vytvorený. Potvrď ho cez odkaz v emaile a potom sa prihlás.",true)};
     el.querySelector("[data-reset]").onclick=async()=>{if(!em.value.trim())return say("Najprv napíš svoj email.");const {error}=await sb.auth.resetPasswordForEmail(em.value.trim(),{redirectTo:location.origin+location.pathname});say(error?tr(error):"Poslal som ti email na zmenu hesla.",!error)};
   }
   return{
