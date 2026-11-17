@@ -972,8 +972,18 @@ body.v2 .wbar b{color:var(--ink)}
 /* úvodná karta */
 body.v2:not(.light) .hero2{background:linear-gradient(160deg,#141518,#0A0B0C 70%);border-color:rgba(255,255,255,.08)}
 .hero2{border-radius:24px}
-.hero2 .wm{font:800 118px/1 var(--wmf)!important;letter-spacing:-.06em;-webkit-text-stroke:1px rgba(255,255,255,.06)!important;top:6px!important}
-body.v2.light .hero2 .wm{-webkit-text-stroke-color:rgba(0,0,0,.06)!important}
+.hero2 .wm{font:900 128px/1 "Archivo",sans-serif!important;font-stretch:88%!important;letter-spacing:-.02em;-webkit-text-stroke:1.2px rgba(255,255,255,.11)!important;top:4px!important;right:-6px!important;display:flex;align-items:baseline}
+body.v2.light .hero2 .wm{-webkit-text-stroke-color:rgba(0,0,0,.1)!important}
+.dt{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:currentColor;margin:0 .035em 0 .045em;font-style:normal;flex:none}
+.hero2 .wm .dt,#wmauth .wmk .dt{width:.15em;height:.15em;background:transparent;box-shadow:inset 0 0 0 1.2px rgba(255,255,255,.11);margin:0 .03em}
+body.v2.light .hero2 .wm .dt{box-shadow:inset 0 0 0 1.2px rgba(0,0,0,.1)}
+.hero2 .ttl .out .dt{background:transparent;box-shadow:inset 0 0 0 1.2px rgba(255,255,255,.72)}
+body.v2.light .hero2 .ttl .out .dt{box-shadow:inset 0 0 0 1.2px rgba(0,0,0,.55)}
+.bname span .dt,#wmauth .wtop b span .dt{width:.15em;height:.15em;margin:0 .03em 0 .04em}
+.sp-word em.r .dt{width:.15em;height:.15em}
+#wmauth .wmk{font:900 180px/1 "Archivo",sans-serif!important;font-stretch:88%!important;letter-spacing:-.02em;-webkit-text-stroke:1.2px rgba(255,255,255,.1)!important;display:flex;align-items:baseline}
+.rvh{opacity:0;transform:translate3d(0,46px,0)}
+.rvh.rvin{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .85s cubic-bezier(.16,.9,.24,1);transition-delay:var(--rd,0ms)}
 .hero2::before{opacity:.6}
 .hero2 .eye{font:600 10px var(--wmf)!important;letter-spacing:.2em!important;color:var(--accent)!important;background:none!important;border:0!important;padding:0!important}
 .hero2 .eye i{animation:none!important}
@@ -1137,6 +1147,27 @@ body.v2 .cls.on{box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
 <div id="toast" class="toast" role="status"></div>
 
 <script>document.addEventListener("gesturestart",e=>e.preventDefault());
+/* guľaté bodky namiesto hranatých v nadpisoch */
+function rdots(el){if(!el)return;const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),ns=[];while(tw.nextNode())if(tw.currentNode.nodeValue.includes("."))ns.push(tw.currentNode);
+  ns.forEach(n=>{const f=document.createDocumentFragment();n.nodeValue.split(".").forEach((p,i,a)=>{if(p)f.append(p);if(i<a.length-1){const d=document.createElement("i");d.className="dt";f.append(d)}});n.replaceWith(f)})}
+document.querySelectorAll(".bname span,#wmauth .wmk,#wmauth .wtop b span,#wmauth h1,#wmauth h2,.sp-word em.r").forEach(rdots);
+/* postupné vysúvanie pri skrolovaní */
+let rvIO=null;
+function wmReveal(root,skipHero){if(rvIO){rvIO.disconnect();rvIO=null}
+  if(!root||document.body.classList.contains("still")||matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;
+  const list=[],H=innerHeight;
+  (function col(el){for(const c of el.children){if(skipHero&&c.classList.contains("hero2"))continue;const cs=getComputedStyle(c);if(cs.display==="none"||cs.position==="sticky"||cs.position==="fixed")continue;
+    if(c.offsetHeight>H*.85&&c.children.length>1)col(c);else list.push(c)}})(root);
+  const done=el=>{const f=e=>{if(e.target!==el)return;el.classList.remove("rvh","rvin");el.style.removeProperty("--rd");el.removeEventListener("transitionend",f)};el.addEventListener("transitionend",f);setTimeout(()=>{el.classList.remove("rvh","rvin");el.style.removeProperty("--rd")},1800)};
+  let k=0;const later=[];
+  list.forEach(el=>{el.classList.add("rvh");const top=el.getBoundingClientRect().top;if(top<H*.96){el.style.setProperty("--rd",Math.min(k++,8)*55+"ms");requestAnimationFrame(()=>requestAnimationFrame(()=>{el.classList.add("rvin");done(el)}))}else later.push(el)});
+  if(!later.length)return;
+  rvIO=new IntersectionObserver(es=>{let j=0;es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;rvIO.unobserve(el);el.style.setProperty("--rd",Math.min(j++,4)*70+"ms");el.classList.add("rvin");done(el)})},{rootMargin:"0px 0px -6% 0px"});
+  later.forEach(el=>rvIO.observe(el))}
+function fitTtl(){const h=document.querySelector("#view .hero2 .ttl");if(!h)return;h.style.fontSize="";const base=parseFloat(getComputedStyle(h).fontSize),w=h.clientWidth;let mx=0;
+  h.querySelectorAll("em").forEach(e=>{mx=Math.max(mx,e.scrollWidth)});if(mx>w&&w>0)h.style.setProperty("font-size",(base*w/mx*.97).toFixed(1)+"px","important")}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{fitTtl()}catch(e){}});
+addEventListener("resize",()=>{try{fitTtl()}catch(e){}});
 
 "use strict";
 /* ================= constants ================= */
@@ -1406,7 +1437,9 @@ let lastVK="",enterT=null;function render(force){
   if(document.body.classList.contains("light")!==(S.settings.theme==="light"))applyTheme();
   if(S._lang!==(S.settings.lang||"sk")){S._lang=S.settings.lang||"sk";if(typeof applyLang==="function")applyLang()}
   {if(!S.settings.design)S.settings.design="v2";const v2=true;document.body.classList.add("v2");document.body.classList.toggle("still",S.settings.design==="classic");const vk=t+(t==="trening"?(S.active&&!S.ui.peek?"a":"h"):"")+(t==="profil"?S.ui.ptab:"");
-   if(v2&&vk!==lastVK){const v=$("#view");[...v.children].forEach((c,i)=>c.style.setProperty("--i",Math.min(i,10)));v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");clearTimeout(enterT);enterT=setTimeout(()=>v.classList.remove("enter"),1300);if(t==="trening"&&!(S.active&&!S.ui.peek)){v2Count(v);wmAnim(v)}}lastVK=vk}
+   if(v2&&vk!==lastVK){const v=$("#view");[...v.children].forEach((c,i)=>c.style.setProperty("--i",Math.min(i,10)));v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");clearTimeout(enterT);enterT=setTimeout(()=>v.classList.remove("enter"),1300);if(t==="trening"&&!(S.active&&!S.ui.peek)){v2Count(v);wmAnim(v)}
+     if(!(t==="trening"&&S.active&&!S.ui.peek)){const sub=t==="profil"&&lastVK.startsWith("profil")&&v.querySelector(".ptc");wmReveal(sub||v,t==="trening")}}lastVK=vk}
+  if(t==="trening")fitTtl();
   if(S.ui.anim){document.querySelectorAll(`[data-anim="${S.ui.anim}"]`).forEach(e=>e.classList.add("anim-in"));S.ui.anim=null}
   fillThumbs();syncWake();wbSync();
 }
@@ -1460,8 +1493,8 @@ const TAGS_L={en:[["NEVER","WAIT FOR","A MACHINE."],["OPEN","24/7,","365 DAYS."]
 const HELLO={sk:["Dobré ráno","Ahoj","Dobrý večer","Zapisuj váhy a série, sleduj svoj pokrok a prekonávaj rekordy."],en:["Good morning","Hi","Good evening","Log weights and sets, track your progress and beat your records."],cs:["Dobré ráno","Ahoj","Dobrý večer","Zapisuj váhy a série, sleduj svůj pokrok a překonávej rekordy."],de:["Guten Morgen","Hallo","Guten Abend","Notiere Gewichte und Sätze, verfolge deinen Fortschritt und brich Rekorde."],pl:["Dzień dobry","Cześć","Dobry wieczór","Zapisuj ciężary i serie, śledź postępy i bij rekordy."]};
 function heroHTML(){const ws=sortedWorkouts(),w0=weekStart(Date.now()),tw=ws.filter(w=>w.start>=w0),vol=tw.reduce((a,w)=>a+volume(w),0),nm=(S.settings.profile||{}).name,LG=S.settings.lang||"sk",TL=TAGS_L[LG],t=TL?TL[tagI%TL.length]:TAGS[tagI],h=new Date().getHours(),HL=HELLO[LG]||HELLO.sk;
   const hi=h<10?HL[0]:h<18?HL[1]:HL[2];
-  return `<section class="hero2 v2only"><div class="wm" aria-hidden="true">W.M.</div><div class="eye"><i></i>${S.active?"Prebieha tréning":"Rača · nonstop 365 dní"}</div>
-  <h1 class="ttl">${t.map((x,i)=>{const r=x[0]==="*"||(!t.some(y=>y[0]==="*")&&i===t.length-1);return `<span class="${r?"red":i?"out":""}"><em style="--d:${i}">${[...x.replace(/^\*/,"")].map(c=>`<i class="ch">${c===" "?"&nbsp;":esc(c)}</i>`).join("")}</em></span>`}).join("")}</h1>
+  return `<section class="hero2 v2only"><div class="wm" aria-hidden="true">W<i class="dt"></i>M<i class="dt"></i></div><div class="eye"><i></i>${S.active?"Prebieha tréning":"Rača · nonstop 365 dní"}</div>
+  <h1 class="ttl">${t.map((x,i)=>{const r=x[0]==="*"||(!t.some(y=>y[0]==="*")&&i===t.length-1);return `<span class="${r?"red":i?"out":""}"><em style="--d:${i}">${[...x.replace(/^\*/,"")].map(c=>c==="."?`<i class="ch dt"></i>`:`<i class="ch">${c===" "?"&nbsp;":esc(c)}</i>`).join("")}</em></span>`}).join("")}</h1>
   <div class="hsub"><b>${hi}${nm?", "+esc(nm.split(" ")[0]):""}.</b> ${HL[3]}</div>
   ${S.active?`<button class="btn primary big block gostart" data-act="peek-off"><span>Späť do tréningu · <span id="pclock">${clock(elapsed(S.active))}</span></span><b class="ar">${ARR_IC}</b></button>`:`<button class="btn primary big block gostart" data-act="start-empty"><span>Začať tréning</span><b class="ar">${ARR_IC}</b></button>`}
   ${(()=>{const goal=Math.max(1,+S.settings.wgoal||3),off=(213.6*(1-Math.min(1,tw.length/goal))).toFixed(1);
@@ -1486,9 +1519,7 @@ const Q_IC={prog:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 function wmAnim(v){if(!window.gsap||document.body.classList.contains("still")||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const ch=v.querySelectorAll(".hero2 .ttl .ch");if(ch.length)gsap.fromTo(ch,{yPercent:115,rotate:8,opacity:0},{yPercent:0,rotate:0,opacity:1,duration:.85,ease:"expo.out",stagger:.02,delay:.08,clearProps:"transform,opacity"});
   const rv=v.querySelector(".ringbox .val");if(rv)gsap.fromTo(rv,{attr:{"stroke-dashoffset":213.6}},{attr:{"stroke-dashoffset":+rv.dataset.off},duration:1.4,ease:"power3.out",delay:.25});
-  const bars=v.querySelectorAll(".wform .days i");if(bars.length)gsap.fromTo(bars,{scaleY:0},{scaleY:1,duration:.8,ease:"expo.out",stagger:{each:.014,from:"end"},delay:.35});
-  const items=[...v.children].filter(c=>!c.classList.contains("hero2"));
-  if(items.length)gsap.fromTo(items,{y:46,opacity:0},{y:0,opacity:1,duration:.75,ease:"power3.out",stagger:i=>Math.min(i,8)*.055,delay:.12,clearProps:"transform,opacity"})}
+  const bars=v.querySelectorAll(".wform .days i");if(bars.length)gsap.fromTo(bars,{scaleY:0},{scaleY:1,duration:.8,ease:"expo.out",stagger:{each:.014,from:"end"},delay:.35})}
 function v2Count(root){(root||document).querySelectorAll("[data-count]").forEach(el=>{const to=+el.dataset.count,suf=el.dataset.suf||"";if(!(to>0))return;const dec=to%1?1:0,t0=performance.now(),D=1100;
   const f=n=>{const p=Math.min(1,(n-t0)/D),e=1-Math.pow(1-p,4),v=to*e;el.textContent=fmtN(dec?Math.round(v*10)/10:Math.round(v))+suf;if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 function viewHome(){
