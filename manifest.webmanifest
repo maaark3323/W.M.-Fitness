@@ -3,10 +3,10 @@
   "short_name": "FITCENTRUM",
   "start_url": "./",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#060607",
+  "theme_color": "#060607",
   "icons": [
     {
       "src": "icon-192.png",
@@ -24,9 +24,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "display_override": [
-    "fullscreen",
-    "standalone"
   ]
 }
