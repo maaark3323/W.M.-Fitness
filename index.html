@@ -887,6 +887,8 @@ body.v2 .top{padding-bottom:10px!important;background:linear-gradient(to bottom,
 body.v2.light .top{background:linear-gradient(to bottom,rgba(244,244,246,.94),rgba(244,244,246,.78) 70%,rgba(244,244,246,0))!important}
 
 body.v2 .top{padding-top:calc(4px + env(safe-area-inset-top))!important}
+
+body.v2.light{background:#F2F2F4}
 </style>
 </head>
 <body>
@@ -1176,7 +1178,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 let pendingRender=false;
 function isTyping(){const a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.type!=="checkbox"&&a.type!=="range"&&$("#view").contains(a)}
 function tab(){const h=location.hash.slice(1);if(h==="historia")return"profil";if(h==="viac")return"nastavenia";return["trening","stroje","programy","profil","treneri","nastavenia"].includes(h)?h:"trening"}
-function applyTheme(){const lt=S.settings.theme==="light";document.body.classList.toggle("light",lt);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=lt?"#FFFFFF":"#000000";document.documentElement.style.background=lt?"#FFFFFF":"#000000";document.documentElement.style.colorScheme=lt?"light":"dark"}
+function applyTheme(){const lt=S.settings.theme==="light";document.body.classList.toggle("light",lt);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=lt?"#FFFFFF":"#000000";document.documentElement.style.colorScheme=lt?"light":"dark"}
 function fitPtc(){const tg=document.querySelector(".tabgrid"),pc=document.querySelector('.ptc[data-anim="ptc"]');if(!tg||!pc)return;pc.style.minHeight="0px";
   const top=document.querySelector(".top").offsetHeight,pad=parseFloat(getComputedStyle(document.querySelector(".app")).paddingBottom)||0;const dv=tg.previousElementSibling&&tg.previousElementSibling.classList.contains("divider")?tg.previousElementSibling:tg;const span=pc.getBoundingClientRect().top-dv.getBoundingClientRect().top;pc.style.minHeight=Math.max(0,window.innerHeight-top-span-pad)+"px"}
 let lastVK="",enterT=null;function render(force){
