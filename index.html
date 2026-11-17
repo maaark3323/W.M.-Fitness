@@ -18,7 +18,7 @@ html,body{overscroll-behavior:none}
 #wmauth::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-55deg,rgba(255,255,255,.035) 0 2px,transparent 2px 18px);-webkit-mask-image:linear-gradient(115deg,transparent 35%,#000 85%);mask-image:linear-gradient(115deg,transparent 35%,#000 85%);pointer-events:none}
 #wmauth .wmk{position:absolute;right:-18px;top:calc(env(safe-area-inset-top) + 40px);font:400 190px/1 "Anton",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(237,28,36,.22);pointer-events:none;animation:wmfl 7s ease-in-out infinite alternate}
 @keyframes wmfl{to{transform:translateY(14px)}}
-#wmauth .pane{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 26px) 24px calc(env(safe-area-inset-bottom) + 26px);max-width:520px;margin:0 auto;transition:transform .45s cubic-bezier(.2,.9,.2,1),opacity .35s}
+#wmauth .pane{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 10px) 24px calc(env(safe-area-inset-bottom) + 26px);max-width:520px;margin:0 auto;transition:transform .45s cubic-bezier(.2,.9,.2,1),opacity .35s}
 #wmauth.step2 .p1{transform:translateX(-30%);opacity:0;pointer-events:none}
 #wmauth .p2{transform:translateX(100%);opacity:0;pointer-events:none}
 #wmauth.step2 .p2{transform:none;opacity:1;pointer-events:auto}
@@ -74,7 +74,7 @@ const WMAuth=(()=>{
   const user={id:async()=>session.user.id,isOwner:async()=>{try{const {data}=await sb.rpc("is_admin");return !!data}catch(e){return false}},can:async()=>true,email:()=>session&&session.user.email};
   /* obnov dáta, keď sa appka vráti na obrazovku (iba ak sa práve nič neukladá) */
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&session&&!pending)live.forEach(f=>f())});
-  function boot(){window.claude={use:async n=>n==="db"?db:n==="user"?user:null};document.getElementById("wmauth").hidden=true;Store.init()}
+  function boot(){try{if(location.hash!=="#trening")history.replaceState(null,"","#trening")}catch(e){}window.claude={use:async n=>n==="db"?db:n==="user"?user:null};document.getElementById("wmauth").hidden=true;Store.init()}
   function ui(){
     const el=document.getElementById("wmauth"),f=el.querySelector("form"),msg=el.querySelector(".msg"),em=f.querySelector("[name=email]"),pw=f.querySelector("[name=pw]");
     const say=(t,ok)=>{msg.textContent=t;msg.className="msg"+(ok?" ok":"")};
@@ -881,6 +881,10 @@ body.v2 .bname .cc{font-style:normal;display:inline-block;position:relative;z-in
 body.v2.light .bname .cc{-webkit-text-stroke-color:#F4F4F6}
 body.v2 .bname span{font:inherit!important;font-stretch:inherit;letter-spacing:inherit;margin-left:.22em;vertical-align:0;color:var(--accent)}
 .hero2 .ttl{line-height:1.22!important}
+
+/* v41 header lighter fade */
+body.v2 .top{padding-bottom:10px!important;background:linear-gradient(to bottom,rgba(5,5,6,.92) 0%,rgba(5,5,6,.75) 70%,rgba(5,5,6,0) 100%)!important;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent);margin-bottom:6px!important}
+body.v2.light .top{background:linear-gradient(to bottom,rgba(244,244,246,.94),rgba(244,244,246,.78) 70%,rgba(244,244,246,0))!important}
 </style>
 </head>
 <body>
