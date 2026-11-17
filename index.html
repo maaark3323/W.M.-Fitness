@@ -890,32 +890,43 @@ body.v2 .top{padding-top:calc(4px + env(safe-area-inset-top))!important}
 
 body.v2.light{background:#F2F2F4}
 
-/* splash logo reveal */
-#splash{position:fixed;inset:0;z-index:10000;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease,transform .5s cubic-bezier(.4,0,.2,1)}
-#splash.out{opacity:0;transform:scale(1.06);pointer-events:none}
-.sp-in{display:flex;align-items:center}
-.sp-mark{position:relative;width:96px;height:96px;flex:none;display:grid;place-items:center;animation:spShift .55s cubic-bezier(.65,0,.25,1) 1.05s both}
-.sp-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:#ED1C24;box-shadow:0 0 30px rgba(237,28,36,.8);animation:spDot .7s cubic-bezier(.3,1.6,.5,1) both}
-.sp-arc{position:absolute;inset:-6px;border-radius:50%;border:4px solid transparent;border-top-color:#ED1C24;border-right-color:#ED1C24;opacity:0;animation:spArc .9s cubic-bezier(.65,0,.25,1) .25s both}
-.sp-arc.a2{inset:-16px;border-top-color:rgba(237,28,36,.5);border-right-color:transparent;border-left-color:rgba(237,28,36,.5);animation-delay:.32s;animation-direction:reverse}
-.sp-logo{width:96px;height:auto;filter:drop-shadow(0 0 22px rgba(237,28,36,.55));animation:spLogo .75s cubic-bezier(.2,1.25,.35,1) .5s both}
-.sp-word{overflow:hidden;max-width:0;animation:spWord .6s cubic-bezier(.65,0,.25,1) 1.1s both;white-space:nowrap}
-.sp-word b{display:inline-block;padding-left:16px;font:900 26px/1.1 "Archivo",sans-serif;font-stretch:125%;letter-spacing:-.02em;color:#fff}
-.sp-word em{display:inline-block;font-style:normal;transform:translateY(110%);opacity:0;animation:spLet .5s cubic-bezier(.2,1,.3,1) calc(1.2s + var(--k)*35ms) both}
+
+
+/* splash v2 – motion logo reveal */
+#splash{position:fixed;inset:0;z-index:10000;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;clip-path:inset(0 0 0 0);transition:clip-path .55s cubic-bezier(.7,0,.25,1)}
+#splash.out{clip-path:inset(0 0 100% 0);pointer-events:none}
+#splash.out .sp-stage{transform:translateY(-40px) scale(1.04);opacity:0;transition:transform .55s cubic-bezier(.7,0,.25,1),opacity .4s}
+.sp-stage{position:relative;width:1px;height:1px}
+.sp-mark{position:absolute;left:-48px;top:-48px;width:96px;height:96px;animation:spMove .7s cubic-bezier(.75,0,.2,1) 1.45s both}
+.sp-arc{position:absolute;left:50%;top:50%;width:190px;height:190px;margin:-95px 0 0 -95px;border-radius:50%;border:22px solid #ED1C24;border-left-color:transparent;border-bottom-color:transparent;animation:spArc2 1.45s cubic-bezier(.7,0,.2,1) both}
+.sp-ball{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;background:#F5F5F5;clip-path:polygon(50.0% 0.0%,58.7% 0.8%,67.1% 3.0%,75.0% 6.7%,82.1% 11.7%,88.3% 17.9%,93.3% 25.0%,97.0% 32.9%,99.2% 41.3%,100.0% 50.0%,99.2% 58.7%,97.0% 67.1%,93.3% 75.0%,88.3% 82.1%,82.1% 88.3%,75.0% 93.3%,67.1% 97.0%,58.7% 99.2%,50.0% 100.0%,41.3% 99.2%,32.9% 97.0%,25.0% 93.3%,17.9% 88.3%,11.7% 82.1%,6.7% 75.0%,3.0% 67.1%,0.8% 58.7%,0.0% 50.0%,0.8% 41.3%,3.0% 32.9%,6.7% 25.0%,11.7% 17.9%,17.9% 11.7%,25.0% 6.7%,32.9% 3.0%,41.3% 0.8%);animation:spBall 1.25s cubic-bezier(.6,0,.2,1) .05s both}
+.sp-parts i{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#ED1C24;opacity:0;animation:spPart .75s cubic-bezier(.1,.8,.3,1) 1.05s forwards}
+.sp-parts i:nth-child(odd){background:#fff;width:5px;height:5px;margin:-2.5px}
+.sp-logo{position:absolute;inset:0;width:96px;height:auto;margin:auto;filter:drop-shadow(0 0 18px rgba(237,28,36,.6));opacity:0;animation:spLogo2 .6s cubic-bezier(.2,1.4,.4,1) 1s both}
+.sp-word{position:absolute;left:var(--wl,-60px);top:-20px;clip-path:inset(-20px 100% -40px 0);animation:spReveal .75s cubic-bezier(.7,0,.2,1) 1.6s both}
+.sp-word b{display:block;white-space:nowrap;font:900 26px/1.1 "Archivo",sans-serif;font-stretch:125%;letter-spacing:-.02em}
+.sp-word em{display:inline-block;font-style:normal;color:#2a2a2d;transform:translateX(-30px);animation:spLetIn .6s cubic-bezier(.2,1,.3,1) calc(1.62s + var(--k)*28ms) both,spLight .35s ease calc(2.05s + var(--k)*45ms) both}
 .sp-word em.cc{position:relative;z-index:1;margin-right:-.16em;-webkit-text-stroke:.09em #000;paint-order:stroke fill}
-.sp-word em.r{color:#ED1C24}
-@keyframes spDot{0%{transform:scale(0)}55%{transform:scale(1.5)}75%{transform:scale(1)}100%{transform:scale(5.5);opacity:0}}
-@keyframes spArc{0%{opacity:0;transform:rotate(-200deg) scale(.4)}35%{opacity:1}75%{opacity:1;transform:rotate(90deg) scale(1)}100%{opacity:0;transform:rotate(160deg) scale(1.15)}}
-@keyframes spLogo{0%{opacity:0;transform:rotate(-120deg) scale(.2);clip-path:circle(0% at 50% 50%)}60%{opacity:1;clip-path:circle(75% at 50% 50%)}100%{opacity:1;transform:none;clip-path:circle(75% at 50% 50%)}}
-@keyframes spShift{from{transform:scale(1.25)}to{transform:scale(1)}}
-@keyframes spWord{from{max-width:0}to{max-width:360px}}
-@keyframes spLet{to{transform:none;opacity:1}}
-body.light #splash{background:#fff}body.light .sp-word b{color:#111}body.light .sp-word em.cc{-webkit-text-stroke-color:#fff}
-@media (max-width:380px){.sp-word b{font-size:22px}.sp-mark{width:80px;height:80px}.sp-logo{width:80px}}
+.sp-word em.r{animation:spLetIn .6s cubic-bezier(.2,1,.3,1) 1.9s both,spRed .4s ease 2.5s both}
+.sp-line{display:block;height:3px;margin-top:8px;background:linear-gradient(90deg,#ED1C24,rgba(237,28,36,0));transform-origin:0 50%;transform:scaleX(0);animation:spLine .6s cubic-bezier(.7,0,.2,1) 2.45s both;box-shadow:0 0 12px rgba(237,28,36,.7)}
+.sp-word small{display:block;margin-top:8px;font:800 10px "Archivo",sans-serif;letter-spacing:.32em;color:#8a8b90;opacity:0;animation:spFade .5s ease 2.65s both}
+.sp-beam{position:absolute;left:-260px;top:-420px;width:520px;height:620px;transform-origin:50% 0;background:conic-gradient(from 168deg at 50% 0,transparent 0deg,rgba(255,255,255,.0) 4deg,rgba(255,230,210,.13) 12deg,rgba(255,255,255,0) 24deg,transparent 360deg);filter:blur(6px);opacity:0;animation:spBeam 1.2s cubic-bezier(.45,0,.25,1) 1.9s both;mix-blend-mode:screen;pointer-events:none}
+@keyframes spArc2{0%{transform:translate(-240px,420px) rotate(-200deg) scale(1.4);opacity:0}12%{opacity:1}45%{transform:translate(0,0) rotate(40deg) scale(1)}70%{transform:rotate(220deg) scale(.68);opacity:1}100%{transform:rotate(420deg) scale(1.6);opacity:0;border-width:2px}}
+@keyframes spBall{0%{transform:translateY(-520px) scale(.6)}38%{transform:translateY(0) scale(1.1,.88)}48%{transform:translateY(-38px) scale(.95,1.05)}58%{transform:translateY(0) scale(1);clip-path:polygon(50.0% 0.0%,58.7% 0.8%,67.1% 3.0%,75.0% 6.7%,82.1% 11.7%,88.3% 17.9%,93.3% 25.0%,97.0% 32.9%,99.2% 41.3%,100.0% 50.0%,99.2% 58.7%,97.0% 67.1%,93.3% 75.0%,88.3% 82.1%,82.1% 88.3%,75.0% 93.3%,67.1% 97.0%,58.7% 99.2%,50.0% 100.0%,41.3% 99.2%,32.9% 97.0%,25.0% 93.3%,17.9% 88.3%,11.7% 82.1%,6.7% 75.0%,3.0% 67.1%,0.8% 58.7%,0.0% 50.0%,0.8% 41.3%,3.0% 32.9%,6.7% 25.0%,11.7% 17.9%,17.9% 11.7%,25.0% 6.7%,32.9% 3.0%,41.3% 0.8%);background:#F5F5F5}78%{clip-path:polygon(50.0% -2.0%,57.5% 2.3%,65.0% 6.7%,72.5% 11.0%,80.0% 15.3%,87.5% 19.7%,95.0% 24.0%,95.0% 32.7%,95.0% 41.3%,95.0% 50.0%,95.0% 58.7%,95.0% 67.3%,95.0% 76.0%,87.5% 80.3%,80.0% 84.7%,72.5% 89.0%,65.0% 93.3%,57.5% 97.7%,50.0% 102.0%,42.5% 97.7%,35.0% 93.3%,27.5% 89.0%,20.0% 84.7%,12.5% 80.3%,5.0% 76.0%,5.0% 67.3%,5.0% 58.7%,5.0% 50.0%,5.0% 41.3%,5.0% 32.7%,5.0% 24.0%,12.5% 19.7%,20.0% 15.3%,27.5% 11.0%,35.0% 6.7%,42.5% 2.3%);background:#ED1C24;transform:rotate(90deg) scale(1.1)}92%{opacity:1;transform:rotate(90deg) scale(1.15)}100%{clip-path:polygon(50.0% -2.0%,57.5% 2.3%,65.0% 6.7%,72.5% 11.0%,80.0% 15.3%,87.5% 19.7%,95.0% 24.0%,95.0% 32.7%,95.0% 41.3%,95.0% 50.0%,95.0% 58.7%,95.0% 67.3%,95.0% 76.0%,87.5% 80.3%,80.0% 84.7%,72.5% 89.0%,65.0% 93.3%,57.5% 97.7%,50.0% 102.0%,42.5% 97.7%,35.0% 93.3%,27.5% 89.0%,20.0% 84.7%,12.5% 80.3%,5.0% 76.0%,5.0% 67.3%,5.0% 58.7%,5.0% 50.0%,5.0% 41.3%,5.0% 32.7%,5.0% 24.0%,12.5% 19.7%,20.0% 15.3%,27.5% 11.0%,35.0% 6.7%,42.5% 2.3%);background:#ED1C24;transform:rotate(90deg) scale(1.35);opacity:0}}
+@keyframes spPart{0%{opacity:1;transform:rotate(var(--a)) translateX(0)}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scale(.3)}}
+@keyframes spLogo2{0%{opacity:0;transform:scale(1.6) rotate(-25deg)}100%{opacity:1;transform:none}}
+@keyframes spMove{to{transform:translateX(var(--mx,-120px))}}
+@keyframes spReveal{to{clip-path:inset(-20px -10px -40px 0)}}
+@keyframes spLetIn{to{transform:none}}
+@keyframes spLight{0%{color:#2a2a2d}50%{color:#FFE9D6;text-shadow:0 0 18px rgba(255,220,190,.9)}100%{color:#fff;text-shadow:none}}
+@keyframes spRed{0%{color:#2a2a2d}100%{color:#ED1C24;text-shadow:0 0 18px rgba(237,28,36,.6)}}
+@keyframes spLine{to{transform:scaleX(1)}}
+@keyframes spFade{to{opacity:1}}
+@keyframes spBeam{0%{opacity:0;transform:rotate(35deg)}25%{opacity:1}80%{opacity:1}100%{opacity:0;transform:rotate(-28deg)}}
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><div class="sp-in"><div class="sp-mark"><i class="sp-dot"></i><i class="sp-arc a1"></i><i class="sp-arc a2"></i><img class="sp-logo" alt=""></div><div class="sp-word"><b><em style="--k:0">F</em><em style="--k:1">I</em><em style="--k:2">T</em><em class="cc" style="--k:3">C</em><em style="--k:4">E</em><em style="--k:5">N</em><em style="--k:6">T</em><em style="--k:7">R</em><em style="--k:8">U</em><em style="--k:9">M</em><em class="r" style="--k:10">&nbsp;W.M.</em></b></div></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-stage"><div class="sp-beam"></div><div class="sp-mark"><i class="sp-arc"></i><i class="sp-ball"></i><div class="sp-parts"><i style="--a:0deg;--d:120px"></i><i style="--a:45deg;--d:95px"></i><i style="--a:90deg;--d:130px"></i><i style="--a:135deg;--d:100px"></i><i style="--a:180deg;--d:125px"></i><i style="--a:225deg;--d:90px"></i><i style="--a:270deg;--d:135px"></i><i style="--a:315deg;--d:105px"></i><i style="--a:20deg;--d:70px"></i><i style="--a:200deg;--d:75px"></i></div><img class="sp-logo" alt=""></div><div class="sp-word"><b><em class="" style="--k:0">F</em><em class="" style="--k:1">I</em><em class="" style="--k:2">T</em><em class="cc" style="--k:3">C</em><em class="" style="--k:4">E</em><em class="" style="--k:5">N</em><em class="" style="--k:6">T</em><em class="" style="--k:7">R</em><em class="" style="--k:8">U</em><em class="" style="--k:9">M</em><em class="r" style="--k:10">&nbsp;W.M.</em></b><i class="sp-line"></i><small>RAČA · NONSTOP 365 DNÍ</small></div></div></div>
 <div id="wmauth" hidden><div class="wmk">W.M.</div>
 <div class="pane p1"><div class="wtop"><img src="logo.png" alt=""><b>FIT<i class="cc">C</i>ENTRUM <span>W.M.</span></b></div><div class="grow"></div>
 <span class="eye"><i></i>Rača · Nonstop 365 dní</span>
@@ -2763,10 +2774,12 @@ document.addEventListener("click",e=>{const el=e.target.closest("[data-act]");if
 
 WMAuth.start();
 
-(function(){document.documentElement.style.background="";const sp=document.getElementById("splash");if(!sp)return;try{const st=JSON.parse(localStorage.getItem("gymlog.v1")||"{}").settings||{};if(st.theme==="light")document.body.classList.add("light")}catch(e){}
+
+(function(){document.documentElement.style.background="";const sp=document.getElementById("splash");if(!sp)return;
   const lg=document.querySelector(".brand .logo");if(lg)sp.querySelector(".sp-logo").src=lg.src;
-  let done=false;const end=()=>{if(done)return;done=true;sp.classList.add("out");setTimeout(()=>sp.remove(),520)};
-  sp.addEventListener("click",end);setTimeout(end,2700)})();
+  const w=sp.querySelector(".sp-word"),ww=w.querySelector("b").scrollWidth||240,gap=16,W=96+gap+ww;sp.style.setProperty("--mx",(-W/2+48)+"px");w.style.setProperty("--wl",(-W/2+96+gap)+"px");
+  let done=false;const end=()=>{if(done)return;done=true;sp.classList.add("out");setTimeout(()=>sp.remove(),600)};
+  sp.addEventListener("click",end);setTimeout(end,3300)})();
 </script>
 </body>
 </html>
