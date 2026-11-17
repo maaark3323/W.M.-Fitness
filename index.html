@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#060607">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@ html,body{overscroll-behavior:none}
 #wmauth{position:fixed;inset:0;z-index:9999;color:#fff;font-family:"Manrope",system-ui,sans-serif;overflow:hidden;background:radial-gradient(120% 70% at 100% 0%,rgba(237,28,36,.38),transparent 60%),radial-gradient(90% 50% at 0% 100%,rgba(237,28,36,.16),transparent 60%),linear-gradient(170deg,#141416,#050506 65%);overscroll-behavior:none;touch-action:pan-x pan-y}
 #wmauth[hidden]{display:none}
 #wmauth::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-55deg,rgba(255,255,255,.035) 0 2px,transparent 2px 18px);-webkit-mask-image:linear-gradient(115deg,transparent 35%,#000 85%);mask-image:linear-gradient(115deg,transparent 35%,#000 85%);pointer-events:none}
-#wmauth .wmk{position:absolute;right:-18px;top:calc(env(safe-area-inset-top) + 84px);font:400 190px/1 "Anton",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(237,28,36,.22);pointer-events:none;animation:wmfl 7s ease-in-out infinite alternate}
+#wmauth .wmk{position:absolute;right:-18px;top:calc(env(safe-area-inset-top) + 40px);font:400 190px/1 "Anton",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(237,28,36,.22);pointer-events:none;animation:wmfl 7s ease-in-out infinite alternate}
 @keyframes wmfl{to{transform:translateY(14px)}}
 #wmauth .pane{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 26px) 24px calc(env(safe-area-inset-bottom) + 26px);max-width:520px;margin:0 auto;transition:transform .45s cubic-bezier(.2,.9,.2,1),opacity .35s}
 #wmauth.step2 .p1{transform:translateX(-30%);opacity:0;pointer-events:none}
@@ -24,12 +24,12 @@ html,body{overscroll-behavior:none}
 #wmauth.step2 .p2{transform:none;opacity:1;pointer-events:auto}
 #wmauth .wtop{display:flex;align-items:center;gap:10px}
 #wmauth .wtop img{width:42px}
-#wmauth .wtop b{font:900 19px/1 "Archivo",sans-serif;font-stretch:125%;letter-spacing:-.015em;white-space:nowrap}#wmauth .wtop b .cc{font-style:normal;display:inline-block;margin-right:-.1em}#wmauth .wtop b span{font-size:13px;font-stretch:115%;letter-spacing:.06em;margin-left:4px;vertical-align:2px}
+#wmauth .wtop b{font:900 19px/1 "Archivo",sans-serif;font-stretch:125%;letter-spacing:-.02em;white-space:nowrap}#wmauth .wtop b .cc{font-style:normal;display:inline-block;position:relative;z-index:1;margin-right:-.16em;-webkit-text-stroke:.09em #121214;paint-order:stroke fill}#wmauth .wtop b span{margin-left:.22em}
 #wmauth .wtop b span{color:#ED1C24}
 #wmauth .grow{flex:1}
 #wmauth .eye{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font:800 10.5px "Archivo",sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#ff5a60;padding:6px 10px;border-radius:999px;background:rgba(237,28,36,.1);border:1px solid rgba(237,28,36,.3)}
 #wmauth .eye i{width:7px;height:7px;border-radius:50%;background:#ED1C24;box-shadow:0 0 10px #ED1C24}
-#wmauth h1{margin:16px 0 10px;font:400 62px/1.1 "Anton",sans-serif;text-transform:uppercase}
+#wmauth h1{margin:16px 0 10px;font:400 62px/1.22 "Anton",sans-serif;text-transform:uppercase}
 #wmauth h1 em{font-style:normal;color:#ED1C24;text-shadow:0 0 28px rgba(237,28,36,.45)}
 #wmauth h2{margin:0 0 6px;font:400 44px/.95 "Anton",sans-serif;text-transform:uppercase}
 #wmauth .sub{color:#b9bac0;font-size:15px;max-width:32ch;margin-bottom:28px}
@@ -874,6 +874,13 @@ body.v2 .act-head{margin-bottom:12px!important}
 .hero2 .wm{top:14px!important;right:-10px!important}
 body.v2 .top{margin-bottom:0!important;padding-bottom:18px!important}
 .hero2 .hsub b{color:var(--ink);font-weight:800}
+
+/* v40 brand like fitcentrum.sk */
+body.v2 .bname{font:900 19px/1 "Archivo",sans-serif!important;font-stretch:125%!important;letter-spacing:-.02em!important;white-space:nowrap}
+body.v2 .bname .cc{font-style:normal;display:inline-block;position:relative;z-index:1;margin-right:-.16em;-webkit-text-stroke:.09em #060607;paint-order:stroke fill}
+body.v2.light .bname .cc{-webkit-text-stroke-color:#F4F4F6}
+body.v2 .bname span{font:inherit!important;font-stretch:inherit;letter-spacing:inherit;margin-left:.22em;vertical-align:0;color:var(--accent)}
+.hero2 .ttl{line-height:1.22!important}
 </style>
 </head>
 <body>
@@ -1163,7 +1170,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 let pendingRender=false;
 function isTyping(){const a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.type!=="checkbox"&&a.type!=="range"&&$("#view").contains(a)}
 function tab(){const h=location.hash.slice(1);if(h==="historia")return"profil";if(h==="viac")return"nastavenia";return["trening","stroje","programy","profil","treneri","nastavenia"].includes(h)?h:"trening"}
-function applyTheme(){const lt=S.settings.theme==="light";document.body.classList.toggle("light",lt);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=lt?"#F4F4F5":"#000000"}
+function applyTheme(){const lt=S.settings.theme==="light";document.body.classList.toggle("light",lt);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=lt?"#F4F4F6":"#060607"}
 function fitPtc(){const tg=document.querySelector(".tabgrid"),pc=document.querySelector('.ptc[data-anim="ptc"]');if(!tg||!pc)return;pc.style.minHeight="0px";
   const top=document.querySelector(".top").offsetHeight,pad=parseFloat(getComputedStyle(document.querySelector(".app")).paddingBottom)||0;const dv=tg.previousElementSibling&&tg.previousElementSibling.classList.contains("divider")?tg.previousElementSibling:tg;const span=pc.getBoundingClientRect().top-dv.getBoundingClientRect().top;pc.style.minHeight=Math.max(0,window.innerHeight-top-span-pad)+"px"}
 let lastVK="",enterT=null;function render(force){
