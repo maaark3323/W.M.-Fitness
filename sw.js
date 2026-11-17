@@ -1,6 +1,6 @@
 // WM fitness – jednoduchý service worker: appka sa otvorí aj pri slabom signáli
-const C="wm-v4";
-self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./","index.html","manifest.webmanifest","logo.png","icon-192.png"])));self.skipWaiting()});
+const C="wm-v5";
+self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./","index.html","manifest-v2.webmanifest","logo.png","icon-192.png"])));self.skipWaiting()});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});
 self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);
   const own=u.origin===location.origin,lib=u.hostname==="cdn.jsdelivr.net";if(!own&&!lib)return;

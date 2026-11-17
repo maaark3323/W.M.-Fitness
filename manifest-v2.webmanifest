@@ -1,7 +1,8 @@
 {
+  "id": "./?app=fitcentrum-wm",
   "name": "FITCENTRUM W.M.",
   "short_name": "FITCENTRUM",
-  "start_url": "./",
+  "start_url": "./?app=fitcentrum-wm",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
